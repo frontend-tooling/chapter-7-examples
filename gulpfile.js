@@ -6,6 +6,11 @@ const jshint = require('gulp-jshint');
 const coffeelint = require('gulp-coffeelint');
 const eslint = require('gulp-eslint');
 const babel  = require('gulp-babel');
+const mainBowerFiles = require('main-bower-files');
+const less = require('gulp-less')
+const queue  = require('streamqueue').obj;
+const cssimport  = require('gulp-cssimport');
+const autoprefixer = require('gulp-autoprefixer');
 
 const merge = require('merge2');
 const combiner = require('stream-combiner2');
@@ -132,4 +137,17 @@ gulp.task('listing-7-6', function() {
     .pipe(jshint.reporter('fail'))
     .pipe(combine('main-6.js'))
     .pipe(gulp.dest('dist/scripts'));
+});
+
+/** Listing 7.7 **/
+
+gulp.task('listing-7-7', function() {
+  return queue(gulp.src(mainBowerFiles('**/*.css')),
+    gulp.src('styles/lib/lib.css')
+      .pipe(cssimport()),
+    gulp.src('styles/less/main.less')
+      .pipe(less())
+  ).pipe(autoprefixer())
+  .pipe(concat('main.css'))
+  .pipe(gulp.dest('dist/styles'));
 });

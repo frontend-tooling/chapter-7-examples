@@ -1,0 +1,21 @@
+{
+  "name": "merge-streams-sample",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Stefan Baumgartner <sbaumg@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/frontend-tooling/chapter-7-examples",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "normalize-css": "normalize.css#^4.2.0"
+  }
+}
