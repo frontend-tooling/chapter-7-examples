@@ -11,7 +11,7 @@ gulp.task('listing-7-1', function() {
   return gulp.src('src/scripts/**/*.coffee')
     .pipe(coffee())
     .pipe(gulp.src('src/scripts/**/*.js', { passthrough: true }))
-    .pipe(concat('main.js'))
+    .pipe(concat('main-1.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'));
 });
@@ -29,7 +29,7 @@ gulp.task('listing-7-2', function() {
     .pipe(jshint.reporter('fail'));
 
   return merge(coffeeStream, jsStream)
-    .pipe(concat('main.js'))
+    .pipe(concat('main-2.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'));
 });
