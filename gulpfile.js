@@ -8,6 +8,7 @@ const eslint = require('gulp-eslint');
 const babel  = require('gulp-babel');
 
 const merge = require('merge2');
+const combiner = require('stream-combiner2');
 
 /** Listing 7.1 **/
 
@@ -114,4 +115,21 @@ gulp.task('listing-7-5', function() {
      return compileScripts(el);
   });
   return merge(streams);
+});
+
+/** Listing 7.6 **/
+
+function combine(output) {
+  return combiner.obj(
+    concat(output),
+    uglify()
+  );
+}
+
+gulp.task('listing-7-6', function() {
+  return gulp.src('src/scripts/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('fail'))
+    .pipe(combine('main-6.js'))
+    .pipe(gulp.dest('dist/scripts'));
 });
