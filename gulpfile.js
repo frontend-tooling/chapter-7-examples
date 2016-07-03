@@ -9,6 +9,8 @@ const babel  = require('gulp-babel');
 
 const merge = require('merge2');
 
+/** Listing 7.1 **/
+
 gulp.task('listing-7-1', function() {
   return gulp.src('src/scripts/**/*.coffee')
     .pipe(coffee())
@@ -17,6 +19,8 @@ gulp.task('listing-7-1', function() {
     .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'));
 });
+
+/** Listing 7.2 **/
 
 gulp.task('listing-7-2', function() {
   const coffeeStream = gulp.src('src/scripts/**/*.coffee')
@@ -36,6 +40,7 @@ gulp.task('listing-7-2', function() {
     .pipe(gulp.dest('dist/scripts'));
 });
 
+/** Listing 7.3 **/
 
 function compileScripts(param) {
   const transpileStream = gulp.src(param.directory + '**/*.' + param.type)
@@ -75,3 +80,38 @@ gulp.task('es6-listing-7-3', function() {
 });
 
 gulp.task('listing-7-3', gulp.parallel('coffee-listing-7-3', 'es6-listing-7-3'));
+
+/** Listing 7.5 **/
+
+const variations = [
+  {
+    linttask: coffeelint,
+    fail: coffeelint.reporter('fail'),
+    compiletask: coffee,
+    directory: 'src/scripts/',
+    type: 'coffee',
+    bundle: 'main-5.1.js'
+  },
+  {
+    linttask: coffeelint,
+    fail: coffeelint.reporter('fail'),
+    compiletask: coffee,
+    directory: 'src/scripts-coffee/',
+    type: 'coffee',
+    bundle: 'main-5.2.js'
+  },{
+    linttask: eslint,
+    fail: eslint.failAfterError(),
+    compiletask: babel,
+    directory: 'src/scripts-es6/',
+    type: 'es',
+    bundle: 'main-5.3.js'
+  }
+];
+
+gulp.task('listing-7-5', function() {
+  const streams = variations.map(function(el) {
+     return compileScripts(el);
+  });
+  return merge(streams);
+});
